@@ -1,0 +1,12 @@
+{
+  "always_run_in_app" : false,
+  "icon" : {
+    "color" : "yellow",
+    "glyph" : "book-open"
+  },
+  "name" : "一言",
+  "script" : "const data = await fetchData()\nconst widget = createWidget(data)\nScript.setWidget(widget)\nScript.complete()\nasync function fetchData(){\n  const url = \"https:\/\/v1.hitokoto.cn\/?max_length=19\"\n  const request = new Request(url)\n  request.headers={\"X-User-Token\":\"NotO+cCDbQdIGVHHogUz3QlctM24ASBi\"}\n  const resp = await request.loadJSON()\n  console.log(resp)\n  const data = resp\n  return data\n}\nfunction createWidget(data){\nvar bgcolor = new LinearGradient()\n  const w = new ListWidget()\n   bgcolor.colors = [new Color('ff9a9e'),new Color('fad0c4')]\n  bgcolor.locations = [0.0,1]\n  textcl=Color.black()\n  w.backgroundGradient = bgcolor\n\/\/   .centerAlignContent()\n  let title = w.addText(\"📖一言\")\n  title.textSize=20\n  title.applyHeadlineTextStyling()\n  title.textColor=textcl\n  if (data.type==\"i\"){\n    const firstline = w.addText(data[\"from_who\"]+\"-\"+data.from)\n    firstline.textSize=8\n    firstline.textColor=textcl\n    firstline.textOpacity=1\n  }\n  const shici = w.addText(data.hitokoto)\n  shici.textSize=17\n  \n  shici.textColor = textcl\n  shici.textOpacity = 0.7\n  w.presentSmall()\n  return w\n}\n",
+  "share_sheet_inputs" : [
+
+  ]
+}
